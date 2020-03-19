@@ -8,4 +8,6 @@ variable "num_of_subnets" {
 
 variable "dd_api_key" {}
 
+variable "dd_profiling_apikey" {}
+
 variable "domain" {}

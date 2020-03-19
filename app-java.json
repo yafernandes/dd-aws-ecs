@@ -33,7 +33,7 @@
             },
             {
                 "name": "DD_PROFILING_APIKEY",
-                "value": "adf1467acd41862fb24e0f7259def55a"
+                "value": "${dd_profiling_apikey}"
             },
             {
                 "name": "DD_TRACE_GLOBAL_TAGS",
