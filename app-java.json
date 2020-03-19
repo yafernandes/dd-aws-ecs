@@ -1,0 +1,95 @@
+[
+    {
+        "name": "app-java",
+        "image": "yaalexf/app-java",
+        "cpu": 10,
+        "memory": 256,
+        "portMappings": [
+            {
+                "containerPort": 8080,
+                "protocol": "tcp"
+            }
+        ],
+        "environment": [
+            {
+                "name": "DD_SERVICE_NAME",
+                "value": "app-java"
+            },
+            {
+                "name": "DD_LOGS_INJECTION",
+                "value": "true"
+            },
+            {
+                "name": "DD_TRACE_ANALYTICS_ENABLED",
+                "value": "true"
+            },
+            {
+                "name": "DD_JDBC_ANALYTICS_ENABLED",
+                "value": "true"
+            },
+            {
+                "name": "DD_PROFILING_ENABLED",
+                "value": "true"
+            },
+            {
+                "name": "DD_PROFILING_APIKEY",
+                "value": "adf1467acd41862fb24e0f7259def55a"
+            },
+            {
+                "name": "DD_TRACE_GLOBAL_TAGS",
+                "value": "env:ecs"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awsfirelens",
+            "options": {
+                "Name": "datadog",
+                "apikey": "${dd_api_key}",
+                "Host": "http-intake.logs.datadoghq.com",
+                "dd_service": "app-java",
+                "dd_source": "tomcat",
+                "dd_message_key": "log",
+                "dd_tags": "env:ecs",
+                "TLS": "on",
+                "provider": "ecs"
+            }
+        }
+    },
+    {
+        "name": "datadog-agemt",
+        "image": "datadog/agent:7",
+        "cpu": 10,
+        "memory": 256,
+        "environment": [
+            {
+                "name": "DD_API_KEY",
+                "value": "${dd_api_key}"
+            },
+            {
+                "name": "DD_TAGS",
+                "value": "env:ecs"
+            },
+            {
+                "name": "DD_ECS_FARGATE",
+                "value": "true"
+            },
+            {
+                "name": "DD_APM_ENABLED",
+                "value": "true"
+            }
+        ]
+    },
+    {
+        "essential": true,
+        "image": "amazon/aws-for-fluent-bit:latest",
+        "name": "log_router",
+        "firelensConfiguration": {
+            "type": "fluentbit",
+            "options": {
+                "enable-ecs-log-metadata": "true",
+                "config-file-type": "file",
+                "config-file-value": "/fluent-bit/configs/parse-json.conf"
+            }
+        }
+    }
+]
