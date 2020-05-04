@@ -56,7 +56,7 @@
         }
     },
     {
-        "name": "datadog-agemt",
+        "name": "datadog-agent",
         "image": "datadog/agent:7",
         "cpu": 10,
         "memory": 256,
