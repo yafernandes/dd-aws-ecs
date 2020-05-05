@@ -16,7 +16,7 @@ resource "aws_ecs_cluster" "cluster" {
 resource "aws_ecs_task_definition" "app-java" {
   family                   = "app-java"
   network_mode             = "awsvpc"
-  container_definitions    = templatefile("app-java.json", { dd_api_key = var.dd_api_key })
+  container_definitions    = templatefile("app-java.json", { dd_api_key = var.dd_api_key, dd_profiling_apikey = var.dd_profiling_apikey })
   requires_compatibilities = ["FARGATE"]
   cpu                      = "0.5 vCPU"
   memory                   = "1GB"
